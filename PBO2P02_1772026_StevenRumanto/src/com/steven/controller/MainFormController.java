@@ -44,6 +44,8 @@ public class MainFormController implements Initializable {
     @FXML
     private ChoiceBox choiceBox;
 
+    private String nama,kategori,harga;
+
     @FXML
     private void tambahAction(ActionEvent actionEvent) {
             try {
@@ -108,6 +110,7 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void update(ActionEvent actionEvent) {
+
     }
 
     @FXML
