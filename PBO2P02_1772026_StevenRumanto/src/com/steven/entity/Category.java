@@ -1,13 +1,13 @@
 package com.steven.entity;
 
 public class Category {
-    private String name;
+    private String nama;
 
-    public String getName() {
-        return name;
+    public String getNama() {
+        return nama;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNama(String nama) {
+        this.nama = nama;
     }
 }

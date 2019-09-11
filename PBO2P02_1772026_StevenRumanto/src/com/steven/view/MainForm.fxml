@@ -14,7 +14,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem fx:id="keluar" mnemonicParsing="false" onAction="#keluar" text="Close">
+              <MenuItem mnemonicParsing="false" onAction="#keluar" text="Close">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="X" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator></MenuItem>
@@ -22,7 +22,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem fx:id="tentang" mnemonicParsing="false" onAction="#tentang" text="About">
+              <MenuItem mnemonicParsing="false" onAction="#tentang" text="About">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>

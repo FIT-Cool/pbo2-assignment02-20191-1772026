@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainFormController implements Initializable {
-    List<String> myCategory=new ArrayList<>();
+    List<String> myCategory = new ArrayList<>();
     @FXML
     private ObservableList<Item> item;
     @FXML
@@ -26,46 +26,46 @@ public class MainFormController implements Initializable {
     @FXML
     private TextField txtNama;
     @FXML
-    private TableColumn<Item,String> col01;
+    private TableColumn<Item, String> col01;
     @FXML
-    private TableColumn<Item,String> col02;
+    private TableColumn<Item, String> col02;
     @FXML
-    private TableColumn<Item,String> col03;
+    private TableColumn<Item, String> col03;
     @FXML
     private TextField txtPrice;
-    @FXML
-    private MenuItem keluar;
-    @FXML
-    private MenuItem tentang;
     @FXML
     private Button update;
     @FXML
     private TextField txtCategoryName;
     @FXML
     private ChoiceBox choiceBox;
-
-    private String nama,kategori,harga;
+    private int index;
 
     @FXML
     private void tambahAction(ActionEvent actionEvent) {
-            try {
-                Item i=new Item();
-                Category c=new Category();
-                c.setName(choiceBox.getValue().toString());
+        try {
+            if (txtNama.getText().trim().isEmpty() ||
+                    txtPrice.getText().trim().isEmpty() ||
+
+                    choiceBox.getSelectionModel().isEmpty()) {
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setContentText("Please fill name/price/category");
+                a.show();
+            } else {
+                Item i = new Item();
+                Category c = new Category();
+                c.setNama(choiceBox.getValue().toString());
                 i.setNama(txtNama.getText().trim());
                 i.setPrice(txtPrice.getText().trim());
                 i.setCategory(c);
                 item.add(i);
             }
-            catch(Exception e) {
-            }
 
+        } catch (Exception e) {
+        }
 
 
     }
-
-
-
 
 
     @Override
@@ -73,20 +73,19 @@ public class MainFormController implements Initializable {
 
         item = FXCollections.observableArrayList();
         tableItem.setItems(item);
-        col01.setCellValueFactory((data) ->{
-            Item f= data.getValue();
+        col01.setCellValueFactory((data) -> {
+            Item f = data.getValue();
             return new SimpleStringProperty(f.getNama());
         });
-        col02.setCellValueFactory((data) ->{
-            Item f= data.getValue();
+        col02.setCellValueFactory((data) -> {
+            Item f = data.getValue();
             return new SimpleStringProperty(f.getPrice());
         });
-        col03.setCellValueFactory((data) ->{
-            Item f= data.getValue();
-            return new SimpleStringProperty(f.getCategory().getName());
+        col03.setCellValueFactory((data) -> {
+            Item f = data.getValue();
+            return new SimpleStringProperty(f.getCategory().getNama());
         });
     }
-
 
 
     @FXML
@@ -96,7 +95,7 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void tentang(ActionEvent actionEvent) {
-        Alert a=new Alert(Alert.AlertType.INFORMATION);
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setContentText("Steven Rumanto \n1772026");
         a.show();
     }
@@ -106,29 +105,57 @@ public class MainFormController implements Initializable {
         txtCategoryName.setText("");
         txtNama.setText("");
         txtPrice.setText("");
+        update.setDisable(true);
     }
 
     @FXML
     private void update(ActionEvent actionEvent) {
+        Item i = tableItem.getSelectionModel().getSelectedItem();
+        Category c = new Category();
+        c.setNama(choiceBox.getValue().toString());
+        i.setNama(txtNama.getText());
+        i.setPrice(txtPrice.getText());
+        i.setCategory(c);
+        tableItem.getItems().set(index, i);
 
     }
 
     @FXML
     private void simpanKategori(ActionEvent actionEvent) {
-        myCategory.add(txtCategoryName.getText().trim());
-        choiceBox.setItems(FXCollections.observableArrayList(myCategory));
+        if (txtCategoryName.getText().trim().isEmpty()) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Please fill category name");
+            a.show();
+        } else {
+            boolean cek = false;
+            for (String str : myCategory) {
+                if (str.trim().contains(txtCategoryName.getText().trim())) cek = true;
+            }
+            if (!cek) {
+                myCategory.add(txtCategoryName.getText().trim());
+                choiceBox.setItems(FXCollections.observableArrayList(myCategory));
+            } else {
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setContentText("Duplicate Category Name!");
+                a.show();
+            }
+        }
+
 
     }
 
     @FXML
     private void pilihTabel(MouseEvent mouseEvent) {
-        if(!item.isEmpty()){
+        try {
             update.setDisable(false);
-            Item i=tableItem.getSelectionModel().getSelectedItem();
-            choiceBox.setValue(i.getCategory().getName());
+            Item i = tableItem.getSelectionModel().getSelectedItem();
+            index = tableItem.getSelectionModel().getSelectedIndex();
+            choiceBox.setValue(i.getCategory().getNama());
             txtNama.setText(i.getNama());
             txtPrice.setText(i.getPrice());
+        } catch (Exception e) {
         }
+
 
     }
 }

@@ -1,6 +1,6 @@
 package com.steven.entity;
 
-public class Item extends Category{
+public class Item extends Category {
     private String nama;
     private String price;
     private Category category;
